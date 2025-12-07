@@ -116,6 +116,7 @@ sudo docker ps
 ## Autor
 
 **Jeffrey Castro**
+**Giovanni Perez**
 [GitHub](https://github.com/Jeffrey2201)
 
 
