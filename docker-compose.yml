@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+
+  # -----------------------------
+  # Contenedor WebApp (Flask)
+  # -----------------------------
+  webapp:
+    build: ./webapp
+    ports:
+      - "80:80"
+    depends_on:
+      - db-web
+      - api
+    environment:
+      MYSQL_HOST: db-web
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: webapp_db
+      API_URL: http://api:8000/convert/
+    networks:
+      - app-network
+
+  # -----------------------------
+  # Contenedor API (FastAPI)
+  # -----------------------------
+  api:
+    build: ./api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db-api
+    environment:
+      MYSQL_HOST: db-api
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: api_db
+    networks:
+      - app-network
+
+  # -----------------------------
+  # Base de datos WebApp
+  # -----------------------------
+  db-web:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: webapp_db
+    volumes:
+      - ./db-web/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+
+  # -----------------------------
+  # Base de datos API
+  # -----------------------------
+  db-api:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: api_db
+    volumes:
+      - ./db-api/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+
+  # -----------------------------
+  # Adminer para gestión de bases de datos
+  # -----------------------------
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+# -----------------------------
+# Red de la aplicación
+# -----------------------------
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,18 @@
+<h2>Bienvenido {{ username }}</h2>
+<h3>Conversor de Celsius a Fahrenheit</h3>
+
+<form method="POST">
+    <label>Temperatura en °C:</label>
+    <input type="number" step="any" name="temperature" required>
+
+    <button type="submit">Convertir</button>
+</form>
+
+{% if result %}
+<p>Resultado: <strong>{{ result }} °F</strong></p>
+{% endif %}
+
+<br>
+<a href="/logout">
+    <button>Salir</button>
+</a>

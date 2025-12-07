@@ -1,0 +1,18 @@
+<h2>Iniciar Sesión</h2>
+
+<form method="POST">
+    <label>Usuario:</label><br>
+    <input type="text" name="username" required><br><br>
+
+    <label>Contraseña:</label><br>
+    <input type="password" name="password" required><br><br>
+
+    <button type="submit">Entrar</button>
+</form>
+
+{% if message %}
+<p style="color: red;">{{ message }}</p>
+{% endif %}
+
+<br>
+<a href="/register">Crear una cuenta</a>
